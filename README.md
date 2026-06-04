@@ -62,7 +62,7 @@ For live mainnet mode, set:
 PHAROS_PRIVATE_KEY=0xyour_private_key_here
 BUDGET_ORACLE_CONTRACT=0xYourBudgetOracleLoggerAddress
 PHAROS_NETWORK=mainnet
-PHAROS_RPC_URL=https://rpc.pharos.network
+PHAROS_RPC_URL=https://rpc.pharos.xyz
 ```
 
 For Atlantic testnet mode, deploy the contract on testnet and set:
@@ -166,7 +166,7 @@ The ledger supports:
 
 | Network | `PHAROS_NETWORK` | Chain ID | Default RPC | Explorer |
 | --- | --- | --- | --- | --- |
-| Pharos mainnet | `mainnet` | `50002` | `https://rpc.pharos.network` | `https://pharosscan.xyz` |
+| Pharos Pacific Ocean Mainnet | `mainnet` | `1672` | `https://rpc.pharos.xyz` | `https://pharosscan.xyz` |
 | Pharos Atlantic testnet | `testnet` | `688689` | `https://atlantic.dplabs-internal.com` | `https://atlantic.pharosscan.xyz` |
 
 Deploy `skills/onchain-ledger/scripts/BudgetOracleLogger.sol` on the selected network, then set `BUDGET_ORACLE_CONTRACT` in `.env`.

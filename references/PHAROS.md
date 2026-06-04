@@ -4,7 +4,7 @@ BudgetOracle targets Pharos Network, an EVM-compatible chain. Use `PHAROS_NETWOR
 
 | Network | `PHAROS_NETWORK` | Chain ID | RPC | Explorer |
 | --- | --- | --- | --- | --- |
-| Pharos mainnet | `mainnet` | `50002` | `https://rpc.pharos.network` | `https://pharosscan.xyz` |
+| Pharos Pacific Ocean Mainnet | `mainnet` | `1672` | `https://rpc.pharos.xyz` | `https://pharosscan.xyz` |
 | Pharos Atlantic testnet | `testnet` | `688689` | `https://atlantic.dplabs-internal.com` | `https://atlantic.pharosscan.xyz` |
 
 Accepted testnet aliases: `testnet`, `atlantic`, `atlantic-testnet`.
@@ -19,7 +19,7 @@ Live onchain mode requires:
 PHAROS_PRIVATE_KEY=0x...
 BUDGET_ORACLE_CONTRACT=0x...
 PHAROS_NETWORK=mainnet
-PHAROS_RPC_URL=https://rpc.pharos.network
+PHAROS_RPC_URL=https://rpc.pharos.xyz
 ```
 
 For testnet, deploy `BudgetOracleLogger.sol` on Atlantic testnet and use:

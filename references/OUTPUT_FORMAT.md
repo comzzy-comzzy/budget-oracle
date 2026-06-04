@@ -72,7 +72,7 @@ Simulated `log` output:
   "success": true,
   "mode": "SIMULATED",
   "network": "mainnet",
-  "chainId": 50002,
+  "chainId": 1672,
   "expenseHash": "0x...",
   "txHash": null,
   "blockNumber": null,

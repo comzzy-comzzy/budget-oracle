@@ -59,7 +59,7 @@ async function main() {
   assert.equal(simulatedLog.success, true);
   assert.equal(simulatedLog.mode, "SIMULATED");
   assert.equal(simulatedLog.network, "mainnet");
-  assert.equal(simulatedLog.chainId, 50002);
+  assert.equal(simulatedLog.chainId, 1672);
   assert.equal(simulatedLog.txHash, null);
 
   process.env.PHAROS_NETWORK = "testnet";

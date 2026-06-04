@@ -6,8 +6,8 @@ metadata:
   author: kane_120
   version: "1.0.0"
   part-of: budget-oracle
-  pharos-mainnet-chain-id: "50002"
-  pharos-mainnet-rpc: https://rpc.pharos.network
+  pharos-mainnet-chain-id: "1672"
+  pharos-mainnet-rpc: https://rpc.pharos.xyz
   pharos-testnet-chain-id: "688689"
   pharos-testnet-rpc: https://atlantic.dplabs-internal.com
 compatibility: Requires Node.js 18+ and ethers v6. Set PHAROS_NETWORK, PHAROS_PRIVATE_KEY, and BUDGET_ORACLE_CONTRACT in .env for onchain mode. Runs in simulated mode without wallet settings.
@@ -30,5 +30,5 @@ Without `PHAROS_PRIVATE_KEY` and `BUDGET_ORACLE_CONTRACT`, commands return simul
 
 Supported networks:
 
-- `PHAROS_NETWORK=mainnet`: chain ID `50002`, RPC `https://rpc.pharos.network`, explorer `https://pharosscan.xyz`
+- `PHAROS_NETWORK=mainnet`: chain ID `1672`, RPC `https://rpc.pharos.xyz`, explorer `https://pharosscan.xyz`
 - `PHAROS_NETWORK=testnet`: chain ID `688689`, RPC `https://atlantic.dplabs-internal.com`, explorer `https://atlantic.pharosscan.xyz`

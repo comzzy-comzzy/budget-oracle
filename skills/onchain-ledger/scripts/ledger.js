@@ -9,8 +9,8 @@ const ENV_PATH = path.join(ROOT, ".env");
 const NETWORKS = {
   mainnet: {
     name: "mainnet",
-    chainId: 50002,
-    rpcUrl: "https://rpc.pharos.network",
+    chainId: 1672,
+    rpcUrl: "https://rpc.pharos.xyz",
     explorerUrl: "https://pharosscan.xyz"
   },
   testnet: {

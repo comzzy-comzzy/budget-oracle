@@ -5,8 +5,8 @@ license: MIT
 metadata:
   author: kane_120
   version: "1.0.0"
-  pharos-mainnet-chain-id: "50002"
-  pharos-mainnet-rpc: https://rpc.pharos.network
+  pharos-mainnet-chain-id: "1672"
+  pharos-mainnet-rpc: https://rpc.pharos.xyz
   pharos-testnet-chain-id: "688689"
   pharos-testnet-rpc: https://atlantic.dplabs-internal.com
 ---
@@ -57,7 +57,7 @@ Local mode works with no wallet and stores state in `assets/state.json`.
 
 Onchain mode uses Pharos Network:
 
-- Mainnet: Chain ID `50002`, RPC `https://rpc.pharos.network`, explorer `https://pharosscan.xyz`
+- Mainnet: Chain ID `1672`, RPC `https://rpc.pharos.xyz`, explorer `https://pharosscan.xyz`
 - Atlantic testnet: Chain ID `688689`, RPC `https://atlantic.dplabs-internal.com`, explorer `https://atlantic.pharosscan.xyz`
 
 Set `PHAROS_NETWORK=mainnet` or `PHAROS_NETWORK=testnet`, plus `PHAROS_PRIVATE_KEY` and `BUDGET_ORACLE_CONTRACT`, for live mode. If wallet settings are missing, onchain-ledger returns simulated JSON instead of crashing.
