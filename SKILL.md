@@ -13,6 +13,24 @@ metadata:
 
 BudgetOracle is a composable multi-skill for local expense tracking, budget enforcement, and optional Pharos onchain logging.
 
+## Setup
+
+Run from the package root:
+
+```bash
+npm install
+npm run check
+```
+
+Use the unified CLI for normal workflows:
+
+```bash
+npm run dev -- init --period monthly --income 500000 --budget 300000 --currency NGN
+npm run dev -- add --name "Team lunch" --amount 15000 --category Food
+npm run dev -- summary
+npm run dev -- ledger log --name "Vendor payment" --amount 500000 --category Vendor
+```
+
 ## Sub-Skills
 
 - `skills/expense-tracker/SKILL.md`: add, remove, edit, list, and summarize local expenses.
@@ -45,14 +63,14 @@ Set `PHAROS_PRIVATE_KEY` and `BUDGET_ORACLE_CONTRACT` for live mode. If either i
 
 ## Chaining Flow
 
-For `node scripts/index.js add`:
+For `npm run dev -- add`:
 
 1. `budget-guardian check --amount <num>` evaluates the planned expense.
 2. The expense is still recorded if `OVER_BUDGET` appears.
 3. `expense-tracker add` writes the expense to local state.
 4. The unified CLI returns guardian warnings and tracker output together.
 
-For `node scripts/index.js summary`:
+For `npm run dev -- summary`:
 
 1. `expense-tracker summary` builds totals and category breakdowns.
 2. `budget-guardian audit` adds budget health warnings.

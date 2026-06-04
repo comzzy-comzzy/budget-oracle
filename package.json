@@ -11,7 +11,10 @@
     "remove": "node scripts/index.js remove",
     "summary": "node scripts/index.js summary",
     "log": "node scripts/index.js log",
-    "init": "node scripts/index.js init"
+    "init": "node scripts/index.js init",
+    "dev": "node scripts/index.js",
+    "test": "node scripts/smoke-test.js",
+    "check": "npm run test"
   },
   "keywords": [
     "budget",
