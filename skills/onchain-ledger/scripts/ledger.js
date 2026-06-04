@@ -118,6 +118,10 @@ function isLiveConfigured() {
   return Boolean(process.env.PHAROS_PRIVATE_KEY && process.env.BUDGET_ORACLE_CONTRACT);
 }
 
+function isReadConfigured() {
+  return Boolean(process.env.BUDGET_ORACLE_CONTRACT);
+}
+
 function simulationMessage() {
   return "Wallet not configured, running in simulation.";
 }
@@ -163,6 +167,22 @@ async function getContract() {
   const wallet = new ethers.Wallet(process.env.PHAROS_PRIVATE_KEY, provider);
   const contract = new ethers.Contract(process.env.BUDGET_ORACLE_CONTRACT, LOGGER_ABI, wallet);
   return { ethers, provider, wallet, contract };
+}
+
+async function getReadContract() {
+  let ethers;
+  try {
+    ({ ethers } = require("ethers"));
+  } catch (error) {
+    fail("ethers is required for Pharos read mode. Run npm install.", {
+      detail: error.message
+    });
+  }
+
+  const config = buildProviderConfig();
+  const provider = new ethers.JsonRpcProvider(config.rpcUrl, config.chainId);
+  const contract = new ethers.Contract(process.env.BUDGET_ORACLE_CONTRACT, LOGGER_ABI, provider);
+  return { ethers, provider, contract };
 }
 
 async function logExpense(options) {
@@ -255,7 +275,7 @@ async function reverse(options) {
 async function verify(options) {
   const hash = normalizeHash(requireString(options, "hash"));
 
-  if (!isLiveConfigured()) {
+  if (!isReadConfigured()) {
     const config = buildProviderConfig();
     return {
       success: true,
@@ -271,7 +291,7 @@ async function verify(options) {
   }
 
   const config = buildProviderConfig();
-  const { contract } = await getContract();
+  const { contract } = await getReadContract();
   const record = await contract.expenseRecords(hash);
 
   return {
@@ -296,7 +316,7 @@ async function verify(options) {
 async function history(options) {
   const address = requireString(options, "address");
 
-  if (!isLiveConfigured()) {
+  if (!isReadConfigured()) {
     const config = buildProviderConfig();
     return {
       success: true,
@@ -312,7 +332,7 @@ async function history(options) {
   }
 
   const config = buildProviderConfig();
-  const { contract } = await getContract();
+  const { contract } = await getReadContract();
   const expenseHashes = await contract.getUserExpenses(address);
 
   return {
@@ -363,6 +383,7 @@ module.exports = {
   parseArgs,
   expenseHash,
   isLiveConfigured,
+  isReadConfigured,
   buildProviderConfig,
   resolveNetwork,
   NETWORKS
