@@ -35,10 +35,14 @@ function show(payload) {
 async function loadStatus() {
   const response = await fetch("/api/status");
   lastStatus = await response.json();
+  const mode = lastStatus.hasPrivateKey && lastStatus.hasContract ? "Live Pharos mode" : "Demo mode";
+  const contract = lastStatus.hasContract
+    ? `${lastStatus.contract.slice(0, 6)}...${lastStatus.contract.slice(-4)}`
+    : "Add server env vars for live logging";
   statusNode.innerHTML = [
     `Network: ${lastStatus.pharosNetwork}`,
-    `Wallet: ${lastStatus.hasPrivateKey ? "configured" : "simulation"}`,
-    `Contract: ${lastStatus.hasContract ? lastStatus.contract : "not set"}`
+    `Mode: ${mode}`,
+    `Contract: ${contract}`
   ].join("<br>");
 }
 
