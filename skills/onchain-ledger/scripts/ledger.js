@@ -6,8 +6,28 @@ const crypto = require("crypto");
 
 const ROOT = path.resolve(__dirname, "../../..");
 const ENV_PATH = path.join(ROOT, ".env");
-const PHAROS_RPC_URL = "https://rpc.pharos.network";
-const PHAROS_EXPLORER = "https://pharosscan.xyz";
+const NETWORKS = {
+  mainnet: {
+    name: "mainnet",
+    chainId: 50002,
+    rpcUrl: "https://rpc.pharos.network",
+    explorerUrl: "https://pharosscan.xyz"
+  },
+  testnet: {
+    name: "testnet",
+    chainId: 688689,
+    rpcUrl: "https://atlantic.dplabs-internal.com",
+    explorerUrl: "https://atlantic.pharosscan.xyz"
+  }
+};
+
+const NETWORK_ALIASES = {
+  mainnet: "mainnet",
+  pharos: "mainnet",
+  testnet: "testnet",
+  atlantic: "testnet",
+  "atlantic-testnet": "testnet"
+};
 const LOGGER_ABI = [
   "function logExpense(bytes32 expenseHash, uint256 amount, string category) external",
   "function reverseExpense(bytes32 expenseHash, string reason) external",
@@ -106,11 +126,25 @@ function expenseHash(expense) {
   return `0x${crypto.createHash("sha256").update(JSON.stringify(expense)).digest("hex")}`;
 }
 
+function resolveNetwork(name = process.env.PHAROS_NETWORK || "mainnet") {
+  const key = NETWORK_ALIASES[String(name).trim().toLowerCase()];
+  if (!key) {
+    fail("Unsupported PHAROS_NETWORK.", {
+      network: name,
+      supportedNetworks: Object.keys(NETWORK_ALIASES)
+    });
+  }
+  return NETWORKS[key];
+}
+
 function buildProviderConfig() {
+  const network = resolveNetwork();
   return {
-    rpcUrl: process.env.PHAROS_RPC_URL || PHAROS_RPC_URL,
+    network: network.name,
+    rpcUrl: process.env.PHAROS_RPC_URL || network.rpcUrl,
     contract: process.env.BUDGET_ORACLE_CONTRACT,
-    chainId: 50002
+    chainId: network.chainId,
+    explorerUrl: network.explorerUrl
   };
 }
 
@@ -124,7 +158,8 @@ async function getContract() {
     });
   }
 
-  const provider = new ethers.JsonRpcProvider(process.env.PHAROS_RPC_URL || PHAROS_RPC_URL, 50002);
+  const config = buildProviderConfig();
+  const provider = new ethers.JsonRpcProvider(config.rpcUrl, config.chainId);
   const wallet = new ethers.Wallet(process.env.PHAROS_PRIVATE_KEY, provider);
   const contract = new ethers.Contract(process.env.BUDGET_ORACLE_CONTRACT, LOGGER_ABI, wallet);
   return { ethers, provider, wallet, contract };
@@ -142,9 +177,12 @@ async function logExpense(options) {
   const hash = expenseHash(expense);
 
   if (!isLiveConfigured()) {
+    const config = buildProviderConfig();
     return {
       success: true,
       mode: "SIMULATED",
+      network: config.network,
+      chainId: config.chainId,
       expenseHash: hash,
       txHash: null,
       blockNumber: null,
@@ -154,6 +192,7 @@ async function logExpense(options) {
     };
   }
 
+  const config = buildProviderConfig();
   const { contract } = await getContract();
   const tx = await contract.logExpense(hash, BigInt(Math.trunc(expense.amount)), expense.category);
   const receipt = await tx.wait();
@@ -161,10 +200,12 @@ async function logExpense(options) {
   return {
     success: true,
     mode: "ONCHAIN",
+    network: config.network,
+    chainId: config.chainId,
     expenseHash: hash,
     txHash: receipt.hash,
     blockNumber: receipt.blockNumber,
-    pharosExplorer: `${PHAROS_EXPLORER}/tx/${receipt.hash}`,
+    pharosExplorer: `${config.explorerUrl}/tx/${receipt.hash}`,
     expense,
     message: "Expense logged onchain on Pharos."
   };
@@ -175,9 +216,12 @@ async function reverse(options) {
   const reason = requireString(options, "reason");
 
   if (!isLiveConfigured()) {
+    const config = buildProviderConfig();
     return {
       success: true,
       mode: "SIMULATED",
+      network: config.network,
+      chainId: config.chainId,
       expenseHash: hash,
       txHash: null,
       blockNumber: null,
@@ -190,6 +234,7 @@ async function reverse(options) {
     };
   }
 
+  const config = buildProviderConfig();
   const { contract } = await getContract();
   const tx = await contract.reverseExpense(hash, reason);
   const receipt = await tx.wait();
@@ -197,10 +242,12 @@ async function reverse(options) {
   return {
     success: true,
     mode: "ONCHAIN",
+    network: config.network,
+    chainId: config.chainId,
     expenseHash: hash,
     txHash: receipt.hash,
     blockNumber: receipt.blockNumber,
-    pharosExplorer: `${PHAROS_EXPLORER}/tx/${receipt.hash}`,
+    pharosExplorer: `${config.explorerUrl}/tx/${receipt.hash}`,
     message: "Expense reversed onchain on Pharos."
   };
 }
@@ -209,9 +256,12 @@ async function verify(options) {
   const hash = normalizeHash(requireString(options, "hash"));
 
   if (!isLiveConfigured()) {
+    const config = buildProviderConfig();
     return {
       success: true,
       mode: "SIMULATED",
+      network: config.network,
+      chainId: config.chainId,
       expenseHash: hash,
       verified: false,
       txHash: null,
@@ -220,12 +270,15 @@ async function verify(options) {
     };
   }
 
+  const config = buildProviderConfig();
   const { contract } = await getContract();
   const record = await contract.expenseRecords(hash);
 
   return {
     success: true,
     mode: "ONCHAIN",
+    network: config.network,
+    chainId: config.chainId,
     expenseHash: hash,
     verified: record.timestamp > 0n,
     record: {
@@ -236,7 +289,7 @@ async function verify(options) {
       timestamp: Number(record.timestamp),
       reversed: record.reversed
     },
-    pharosExplorer: `${PHAROS_EXPLORER}/address/${buildProviderConfig().contract}`
+    pharosExplorer: `${config.explorerUrl}/address/${config.contract}`
   };
 }
 
@@ -244,9 +297,12 @@ async function history(options) {
   const address = requireString(options, "address");
 
   if (!isLiveConfigured()) {
+    const config = buildProviderConfig();
     return {
       success: true,
       mode: "SIMULATED",
+      network: config.network,
+      chainId: config.chainId,
       address,
       expenseHashes: [],
       count: 0,
@@ -255,16 +311,19 @@ async function history(options) {
     };
   }
 
+  const config = buildProviderConfig();
   const { contract } = await getContract();
   const expenseHashes = await contract.getUserExpenses(address);
 
   return {
     success: true,
     mode: "ONCHAIN",
+    network: config.network,
+    chainId: config.chainId,
     address,
     expenseHashes,
     count: expenseHashes.length,
-    pharosExplorer: `${PHAROS_EXPLORER}/address/${address}`
+    pharosExplorer: `${config.explorerUrl}/address/${address}`
   };
 }
 
@@ -304,5 +363,7 @@ module.exports = {
   parseArgs,
   expenseHash,
   isLiveConfigured,
-  buildProviderConfig
+  buildProviderConfig,
+  resolveNetwork,
+  NETWORKS
 };

@@ -1,12 +1,13 @@
 # Pharos Integration
 
-BudgetOracle targets Pharos Network, an EVM-compatible chain.
+BudgetOracle targets Pharos Network, an EVM-compatible chain. Use `PHAROS_NETWORK` to select where live ledger writes go.
 
-| Field | Value |
-| --- | --- |
-| Chain ID | `50002` |
-| RPC | `https://rpc.pharos.network` |
-| Explorer | `https://pharosscan.xyz` |
+| Network | `PHAROS_NETWORK` | Chain ID | RPC | Explorer |
+| --- | --- | --- | --- | --- |
+| Pharos mainnet | `mainnet` | `50002` | `https://rpc.pharos.network` | `https://pharosscan.xyz` |
+| Pharos Atlantic testnet | `testnet` | `688689` | `https://atlantic.dplabs-internal.com` | `https://atlantic.pharosscan.xyz` |
+
+Accepted testnet aliases: `testnet`, `atlantic`, `atlantic-testnet`.
 
 ## Modes
 
@@ -17,14 +18,24 @@ Live onchain mode requires:
 ```bash
 PHAROS_PRIVATE_KEY=0x...
 BUDGET_ORACLE_CONTRACT=0x...
+PHAROS_NETWORK=mainnet
 PHAROS_RPC_URL=https://rpc.pharos.network
+```
+
+For testnet, deploy `BudgetOracleLogger.sol` on Atlantic testnet and use:
+
+```bash
+PHAROS_PRIVATE_KEY=0x...
+BUDGET_ORACLE_CONTRACT=0x...
+PHAROS_NETWORK=testnet
+PHAROS_RPC_URL=https://atlantic.dplabs-internal.com
 ```
 
 ## Contract
 
 The Solidity source is `skills/onchain-ledger/scripts/BudgetOracleLogger.sol`.
 
-Deploy it with any EVM deployment framework that supports Solidity `^0.8.20`, then set `BUDGET_ORACLE_CONTRACT` to the deployed address.
+Deploy it with any EVM deployment framework that supports Solidity `^0.8.20`, then set `BUDGET_ORACLE_CONTRACT` to the deployed address for the selected network.
 
 ## Live Logging Flow
 

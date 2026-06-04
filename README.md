@@ -25,6 +25,7 @@ BudgetOracle turns a simple budget into an agent-readable workflow:
 - npm.
 - A Pharos-compatible EVM wallet only for live onchain write commands.
 - `PHAROS_PRIVATE_KEY` and `BUDGET_ORACLE_CONTRACT` only for live onchain mode.
+- `PHAROS_NETWORK=mainnet` or `PHAROS_NETWORK=testnet` for live network selection.
 
 Local tracking, budget checks, summaries, and simulated ledger output do not require a wallet.
 
@@ -51,15 +52,26 @@ For local and simulated mode, leave these values blank:
 ```env
 PHAROS_PRIVATE_KEY=
 BUDGET_ORACLE_CONTRACT=
+PHAROS_NETWORK=mainnet
 PHAROS_RPC_URL=
 ```
 
-For live onchain mode, set:
+For live mainnet mode, set:
 
 ```env
 PHAROS_PRIVATE_KEY=0xyour_private_key_here
 BUDGET_ORACLE_CONTRACT=0xYourBudgetOracleLoggerAddress
+PHAROS_NETWORK=mainnet
 PHAROS_RPC_URL=https://rpc.pharos.network
+```
+
+For Atlantic testnet mode, deploy the contract on testnet and set:
+
+```env
+PHAROS_PRIVATE_KEY=0xyour_private_key_here
+BUDGET_ORACLE_CONTRACT=0xYourTestnetBudgetOracleLoggerAddress
+PHAROS_NETWORK=testnet
+PHAROS_RPC_URL=https://atlantic.dplabs-internal.com
 ```
 
 Never commit `.env`. It is ignored by git.
@@ -150,13 +162,14 @@ npm run dev -- ledger history --address 0x...
 
 ## Using Pharos
 
-The ledger uses:
+The ledger supports:
 
-- Chain ID: `50002`
-- Default RPC: `https://rpc.pharos.network`
-- Explorer: `https://pharosscan.xyz`
+| Network | `PHAROS_NETWORK` | Chain ID | Default RPC | Explorer |
+| --- | --- | --- | --- | --- |
+| Pharos mainnet | `mainnet` | `50002` | `https://rpc.pharos.network` | `https://pharosscan.xyz` |
+| Pharos Atlantic testnet | `testnet` | `688689` | `https://atlantic.dplabs-internal.com` | `https://atlantic.pharosscan.xyz` |
 
-Deploy `skills/onchain-ledger/scripts/BudgetOracleLogger.sol` with your preferred Pharos-compatible deployment tool, then set `BUDGET_ORACLE_CONTRACT` in `.env`.
+Deploy `skills/onchain-ledger/scripts/BudgetOracleLogger.sol` on the selected network, then set `BUDGET_ORACLE_CONTRACT` in `.env`.
 
 Live mode calls:
 

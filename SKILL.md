@@ -5,8 +5,10 @@ license: MIT
 metadata:
   author: kane_120
   version: "1.0.0"
-  pharos-chain-id: "50002"
-  pharos-rpc: https://rpc.pharos.network
+  pharos-mainnet-chain-id: "50002"
+  pharos-mainnet-rpc: https://rpc.pharos.network
+  pharos-testnet-chain-id: "688689"
+  pharos-testnet-rpc: https://atlantic.dplabs-internal.com
 ---
 
 # BudgetOracle
@@ -55,11 +57,10 @@ Local mode works with no wallet and stores state in `assets/state.json`.
 
 Onchain mode uses Pharos Network:
 
-- Chain ID: `50002`
-- RPC: `https://rpc.pharos.network`
-- Explorer: `https://pharosscan.xyz`
+- Mainnet: Chain ID `50002`, RPC `https://rpc.pharos.network`, explorer `https://pharosscan.xyz`
+- Atlantic testnet: Chain ID `688689`, RPC `https://atlantic.dplabs-internal.com`, explorer `https://atlantic.pharosscan.xyz`
 
-Set `PHAROS_PRIVATE_KEY` and `BUDGET_ORACLE_CONTRACT` for live mode. If either is missing, onchain-ledger returns simulated JSON instead of crashing.
+Set `PHAROS_NETWORK=mainnet` or `PHAROS_NETWORK=testnet`, plus `PHAROS_PRIVATE_KEY` and `BUDGET_ORACLE_CONTRACT`, for live mode. If wallet settings are missing, onchain-ledger returns simulated JSON instead of crashing.
 
 ## Chaining Flow
 

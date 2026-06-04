@@ -58,7 +58,20 @@ async function main() {
   });
   assert.equal(simulatedLog.success, true);
   assert.equal(simulatedLog.mode, "SIMULATED");
+  assert.equal(simulatedLog.network, "mainnet");
+  assert.equal(simulatedLog.chainId, 50002);
   assert.equal(simulatedLog.txHash, null);
+
+  process.env.PHAROS_NETWORK = "testnet";
+  const testnetLog = await ledger.run("log", {
+    name: "Testnet vendor payment",
+    amount: "1000",
+    category: "Vendor"
+  });
+  assert.equal(testnetLog.success, true);
+  assert.equal(testnetLog.mode, "SIMULATED");
+  assert.equal(testnetLog.network, "testnet");
+  assert.equal(testnetLog.chainId, 688689);
 
   process.stdout.write(
     `${JSON.stringify(
@@ -69,7 +82,8 @@ async function main() {
           "guardian add checks",
           "summary audit",
           "over-budget warning",
-          "ledger simulation"
+          "mainnet ledger simulation",
+          "testnet ledger simulation"
         ]
       },
       null,

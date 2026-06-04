@@ -71,6 +71,8 @@ Simulated `log` output:
 {
   "success": true,
   "mode": "SIMULATED",
+  "network": "mainnet",
+  "chainId": 50002,
   "expenseHash": "0x...",
   "txHash": null,
   "blockNumber": null,
@@ -80,7 +82,7 @@ Simulated `log` output:
 }
 ```
 
-Live `log` output uses `mode: "ONCHAIN"` and includes `txHash`, `blockNumber`, and `pharosExplorer`.
+Live `log` output uses `mode: "ONCHAIN"` and includes `network`, `chainId`, `txHash`, `blockNumber`, and `pharosExplorer`.
 
 ## Unified CLI
 
