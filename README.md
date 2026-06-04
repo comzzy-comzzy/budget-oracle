@@ -39,6 +39,22 @@ cp .env.example .env
 npm run check
 ```
 
+## Demo Site
+
+Run the local demo site:
+
+```bash
+npm run demo
+```
+
+Open:
+
+```text
+http://127.0.0.1:4173
+```
+
+The demo is backed by the real BudgetOracle modules through `demo/site/server.js`. It can initialize a budget, add expenses with guardian warnings, show summary JSON, log an expense hash through the ledger, and verify a hash. Keep wallet variables in the server environment only; never put `PHAROS_PRIVATE_KEY` in browser code.
+
 ## Set Up Your `.env` File
 
 The `.env` file is only needed for live Pharos writes. Start with the example file:

@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BudgetOracle Demo</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <div>
+          <h1>BudgetOracle</h1>
+          <p>Expense tracking, budget guardrails, and Pharos ledger logging.</p>
+        </div>
+        <div id="status" class="status">Loading</div>
+      </header>
+
+      <section class="grid">
+        <form id="initForm" class="panel">
+          <h2>Initialize Budget</h2>
+          <label>
+            Period
+            <select name="period">
+              <option value="monthly">Monthly</option>
+              <option value="weekly">Weekly</option>
+            </select>
+          </label>
+          <label>
+            Income
+            <input name="income" type="number" min="0" value="500000" />
+          </label>
+          <label>
+            Budget
+            <input name="budget" type="number" min="0" value="300000" />
+          </label>
+          <label>
+            Currency
+            <select name="currency">
+              <option value="NGN">NGN</option>
+              <option value="USD">USD</option>
+              <option value="PROS">PROS</option>
+              <option value="USDC">USDC</option>
+            </select>
+          </label>
+          <button type="submit">Initialize</button>
+        </form>
+
+        <form id="expenseForm" class="panel">
+          <h2>Add Expense</h2>
+          <label>
+            Name
+            <input name="name" value="Team lunch" />
+          </label>
+          <label>
+            Amount
+            <input name="amount" type="number" min="0" value="15000" />
+          </label>
+          <label>
+            Category
+            <select name="category">
+              <option>Food</option>
+              <option>Transport</option>
+              <option>Bills</option>
+              <option>Shopping</option>
+              <option>Health</option>
+              <option>Entertainment</option>
+              <option>Rent</option>
+              <option>Payroll</option>
+              <option>Vendor</option>
+              <option>Marketing</option>
+              <option>Utilities</option>
+              <option>Other</option>
+            </select>
+          </label>
+          <label>
+            Note
+            <input name="note" placeholder="optional" />
+          </label>
+          <button type="submit">Add With Guardrails</button>
+        </form>
+
+        <form id="ledgerForm" class="panel">
+          <h2>Log To Pharos</h2>
+          <label>
+            Name
+            <input name="name" value="Vendor payment" />
+          </label>
+          <label>
+            Amount
+            <input name="amount" type="number" min="0" value="1000" />
+          </label>
+          <label>
+            Category
+            <select name="category">
+              <option>Vendor</option>
+              <option>Payroll</option>
+              <option>Bills</option>
+              <option>Marketing</option>
+              <option>Other</option>
+            </select>
+          </label>
+          <label>
+            Currency
+            <input name="currency" value="PROS" />
+          </label>
+          <button type="submit">Log Expense Hash</button>
+        </form>
+
+        <form id="verifyForm" class="panel">
+          <h2>Verify Hash</h2>
+          <label>
+            Expense hash
+            <input name="hash" placeholder="0x..." />
+          </label>
+          <button type="submit">Verify Onchain</button>
+        </form>
+      </section>
+
+      <section class="actions">
+        <button id="summaryButton" type="button">Refresh Summary</button>
+        <button id="historyButton" type="button">Wallet History</button>
+      </section>
+
+      <section class="output">
+        <div>
+          <h2>Warnings</h2>
+          <ul id="warnings"></ul>
+        </div>
+        <div>
+          <h2>JSON Output</h2>
+          <pre id="output">{}</pre>
+        </div>
+      </section>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

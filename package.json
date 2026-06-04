@@ -13,6 +13,7 @@
     "log": "node scripts/index.js log",
     "init": "node scripts/index.js init",
     "dev": "node scripts/index.js",
+    "demo": "node demo/site/server.js",
     "test": "node scripts/smoke-test.js",
     "check": "npm run test"
   },
@@ -33,6 +34,7 @@
   "license": "MIT",
   "dependencies": {
     "dotenv": "^16.4.5",
+    "express": "^4.19.2",
     "ethers": "^6.13.0"
   },
   "engines": {

@@ -69,16 +69,13 @@ function combinedSummary() {
 async function run(command, tokens, options) {
   switch (command) {
     case "tracker": {
-      const sub = parseArgs(tokens);
-      return tracker.run(sub.command, sub.options);
+      return tracker.run(tokens[0], options);
     }
     case "guardian": {
-      const sub = parseArgs(tokens);
-      return guardian.run(sub.command, sub.options);
+      return guardian.run(tokens[0], options);
     }
     case "ledger": {
-      const sub = parseArgs(tokens);
-      return ledger.run(sub.command, sub.options);
+      return ledger.run(tokens[0], options);
     }
     case "init":
       return tracker.run("init", options);
