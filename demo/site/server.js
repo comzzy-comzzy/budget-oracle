@@ -2,7 +2,7 @@
 
 const express = require("express");
 const path = require("path");
-const budgetOracle = require("../../scripts/index.js");
+const { runPayload, statusPayload } = require("./handler.js");
 
 const app = express();
 const port = Number(process.env.PORT || 4173);
@@ -23,31 +23,14 @@ function asyncRoute(handler) {
   };
 }
 
-function cleanOptions(body) {
-  return Object.fromEntries(
-    Object.entries(body || {}).filter(([, value]) => value !== undefined && value !== null && value !== "")
-  );
-}
-
 app.get("/api/status", (_request, response) => {
-  response.json({
-    success: true,
-    pharosNetwork: process.env.PHAROS_NETWORK || "mainnet",
-    hasPrivateKey: Boolean(process.env.PHAROS_PRIVATE_KEY),
-    hasContract: Boolean(process.env.BUDGET_ORACLE_CONTRACT),
-    contract: process.env.BUDGET_ORACLE_CONTRACT || null
-  });
+  response.json(statusPayload());
 });
 
 app.post(
   "/api/run",
   asyncRoute(async (request, response) => {
-    const command = String(request.body.command || "");
-    const options = cleanOptions(request.body.options);
-    const tokens = options.subcommand ? [String(options.subcommand)] : [];
-    delete options.subcommand;
-    const result = await budgetOracle.run(command, tokens, options);
-    response.json(result);
+    response.json(await runPayload(request.body));
   })
 );
 

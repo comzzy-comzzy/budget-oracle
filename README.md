@@ -55,6 +55,28 @@ http://127.0.0.1:4173
 
 The demo is backed by the real BudgetOracle modules through `demo/site/server.js`. It can initialize a budget, add expenses with guardian warnings, show summary JSON, log an expense hash through the ledger, and verify a hash. Keep wallet variables in the server environment only; never put `PHAROS_PRIVATE_KEY` in browser code.
 
+## Deploy Demo To Vercel
+
+The Vercel demo uses static files from `public/` and serverless functions in `api/`.
+
+Install the Vercel CLI and deploy:
+
+```bash
+npm install
+pnpm dlx vercel
+```
+
+For simulation mode, no secrets are required. For live Pharos mode, add these environment variables in the Vercel project settings:
+
+```env
+PHAROS_NETWORK=mainnet
+PHAROS_RPC_URL=https://rpc.pharos.xyz
+BUDGET_ORACLE_CONTRACT=0xYourBudgetOracleLoggerAddress
+PHAROS_PRIVATE_KEY=0xYourServerSidePrivateKey
+```
+
+Use `PHAROS_NETWORK=testnet` and the Atlantic testnet contract address if you want the public demo to spend testnet gas instead of mainnet PROS. Keep `PHAROS_PRIVATE_KEY` server-side in Vercel environment variables only.
+
 ## Set Up Your `.env` File
 
 The `.env` file is only needed for live Pharos writes. Start with the example file:
