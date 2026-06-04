@@ -1,0 +1,53 @@
+{
+  "name": "budget-oracle",
+  "version": "1.0.0",
+  "description": "Multi-skill onchain budget tracker for Pharos Agent Center — personal finance and business expense management",
+  "main": "scripts/index.js",
+  "bin": {
+    "budget-oracle": "scripts/index.js"
+  },
+  "scripts": {
+    "add": "node scripts/index.js add",
+    "remove": "node scripts/index.js remove",
+    "summary": "node scripts/index.js summary",
+    "log": "node scripts/index.js log",
+    "init": "node scripts/index.js init"
+  },
+  "keywords": [
+    "budget",
+    "expense-tracker",
+    "pharos",
+    "onchain",
+    "agent-skill",
+    "personal-finance",
+    "business",
+    "dao",
+    "rwa",
+    "web3",
+    "ai-agent"
+  ],
+  "author": "kane_120 (Agwu Uzoamaka Jane)",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "ethers": "^6.13.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "agentSkill": {
+    "skillFile": "SKILL.md",
+    "subSkills": [
+      "skills/expense-tracker/SKILL.md",
+      "skills/budget-guardian/SKILL.md",
+      "skills/onchain-ledger/SKILL.md"
+    ],
+    "compatible": [
+      "claude-code",
+      "codex-cli",
+      "cursor",
+      "vscode-agent",
+      "pharos-agent-center"
+    ]
+  }
+}

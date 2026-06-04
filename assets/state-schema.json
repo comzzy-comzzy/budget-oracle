@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/comzzy-comzzy/budget-oracle/assets/state-schema.json",
+  "title": "BudgetOracle State",
+  "type": "object",
+  "required": [
+    "period",
+    "income",
+    "budgetLimit",
+    "currency",
+    "expenses",
+    "createdAt",
+    "updatedAt"
+  ],
+  "properties": {
+    "period": {
+      "type": "string",
+      "enum": ["weekly", "monthly"]
+    },
+    "income": {
+      "type": "number",
+      "minimum": 0
+    },
+    "budgetLimit": {
+      "type": "number",
+      "minimum": 0
+    },
+    "currency": {
+      "type": "string",
+      "enum": ["NGN", "USD", "PROS", "USDC"]
+    },
+    "expenses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "amount",
+          "category",
+          "note",
+          "date",
+          "onchain",
+          "txHash"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 8
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "amount": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "category": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "onchain": {
+            "type": "boolean"
+          },
+          "txHash": {
+            "type": ["string", "null"]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "additionalProperties": false
+}
