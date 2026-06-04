@@ -7,127 +7,194 @@
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
-    <main class="shell">
-      <header class="topbar">
-        <div>
-          <h1>BudgetOracle</h1>
-          <p>Expense tracking, budget guardrails, and Pharos ledger logging.</p>
+    <main class="page-shell">
+      <nav class="nav">
+        <a class="brand" href="/" aria-label="BudgetOracle home">
+          <span class="brand-mark">bo</span>
+          <span>BudgetOracle</span>
+        </a>
+        <div class="nav-links" aria-label="Sections">
+          <a href="#budget">Budget</a>
+          <a href="#ledger">Ledger</a>
+          <a href="#json">Output</a>
         </div>
-        <div id="status" class="status">Loading</div>
-      </header>
+        <button id="summaryButton" class="nav-action" type="button">Refresh</button>
+      </nav>
 
-      <section class="grid">
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Built for Pharos budget operations</p>
+          <h1>BudgetOracle</h1>
+          <p class="lede">
+            Track expenses, catch budget pressure early, and anchor financial records on Pharos.
+          </p>
+          <div class="hero-actions">
+            <a class="primary-link" href="#budget">Start demo</a>
+            <a class="secondary-link" href="#ledger">Log to Pharos</a>
+          </div>
+          <div id="status" class="status">Loading network status...</div>
+        </div>
+
+        <div class="oracle-visual" aria-hidden="true">
+          <div class="orbit orbit-one"></div>
+          <div class="orbit orbit-two"></div>
+          <div class="mascot">
+            <div class="mascot-head"></div>
+            <div class="mascot-body"></div>
+          </div>
+          <div class="terminal">
+            <div class="terminal-bar">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <pre><code>{ budget: "monthly" }
+guardian.check(280000)
+warning: "APPROACHING_LIMIT"
+chain: "Pharos"
+mode: "ONCHAIN"</code></pre>
+          </div>
+          <div class="badge">PROS</div>
+        </div>
+      </section>
+
+      <section class="metrics" aria-label="Budget metrics">
+        <div>
+          <span>Total spent</span>
+          <strong id="metricSpent">-</strong>
+        </div>
+        <div>
+          <span>Remaining</span>
+          <strong id="metricRemaining">-</strong>
+        </div>
+        <div>
+          <span>Budget used</span>
+          <strong id="metricUsed">-</strong>
+        </div>
+        <div>
+          <span>Warnings</span>
+          <strong id="metricWarnings">0</strong>
+        </div>
+      </section>
+
+      <section id="budget" class="workspace">
         <form id="initForm" class="panel">
           <h2>Initialize Budget</h2>
-          <label>
-            Period
-            <select name="period">
-              <option value="monthly">Monthly</option>
-              <option value="weekly">Weekly</option>
-            </select>
-          </label>
-          <label>
-            Income
-            <input name="income" type="number" min="0" value="500000" />
-          </label>
-          <label>
-            Budget
-            <input name="budget" type="number" min="0" value="300000" />
-          </label>
-          <label>
-            Currency
-            <select name="currency">
-              <option value="NGN">NGN</option>
-              <option value="USD">USD</option>
-              <option value="PROS">PROS</option>
-              <option value="USDC">USDC</option>
-            </select>
-          </label>
+          <div class="field-grid">
+            <label>
+              Period
+              <select name="period">
+                <option value="monthly">Monthly</option>
+                <option value="weekly">Weekly</option>
+              </select>
+            </label>
+            <label>
+              Income
+              <input name="income" type="number" min="0" value="500000" />
+            </label>
+            <label>
+              Budget
+              <input name="budget" type="number" min="0" value="300000" />
+            </label>
+            <label>
+              Currency
+              <select name="currency">
+                <option value="NGN">NGN</option>
+                <option value="USD">USD</option>
+                <option value="PROS">PROS</option>
+                <option value="USDC">USDC</option>
+              </select>
+            </label>
+          </div>
           <button type="submit">Initialize</button>
         </form>
 
         <form id="expenseForm" class="panel">
           <h2>Add Expense</h2>
-          <label>
-            Name
-            <input name="name" value="Team lunch" />
-          </label>
-          <label>
-            Amount
-            <input name="amount" type="number" min="0" value="15000" />
-          </label>
-          <label>
-            Category
-            <select name="category">
-              <option>Food</option>
-              <option>Transport</option>
-              <option>Bills</option>
-              <option>Shopping</option>
-              <option>Health</option>
-              <option>Entertainment</option>
-              <option>Rent</option>
-              <option>Payroll</option>
-              <option>Vendor</option>
-              <option>Marketing</option>
-              <option>Utilities</option>
-              <option>Other</option>
-            </select>
-          </label>
-          <label>
-            Note
-            <input name="note" placeholder="optional" />
-          </label>
+          <div class="field-grid">
+            <label>
+              Name
+              <input name="name" value="Team lunch" />
+            </label>
+            <label>
+              Amount
+              <input name="amount" type="number" min="0" value="15000" />
+            </label>
+            <label>
+              Category
+              <select name="category">
+                <option>Food</option>
+                <option>Transport</option>
+                <option>Bills</option>
+                <option>Shopping</option>
+                <option>Health</option>
+                <option>Entertainment</option>
+                <option>Rent</option>
+                <option>Payroll</option>
+                <option>Vendor</option>
+                <option>Marketing</option>
+                <option>Utilities</option>
+                <option>Other</option>
+              </select>
+            </label>
+            <label>
+              Note
+              <input name="note" placeholder="optional" />
+            </label>
+          </div>
           <button type="submit">Add With Guardrails</button>
         </form>
+      </section>
 
+      <section id="ledger" class="workspace">
         <form id="ledgerForm" class="panel">
-          <h2>Log To Pharos</h2>
-          <label>
-            Name
-            <input name="name" value="Vendor payment" />
-          </label>
-          <label>
-            Amount
-            <input name="amount" type="number" min="0" value="1000" />
-          </label>
-          <label>
-            Category
-            <select name="category">
-              <option>Vendor</option>
-              <option>Payroll</option>
-              <option>Bills</option>
-              <option>Marketing</option>
-              <option>Other</option>
-            </select>
-          </label>
-          <label>
-            Currency
-            <input name="currency" value="PROS" />
-          </label>
+          <h2>Pharos Ledger</h2>
+          <div class="field-grid">
+            <label>
+              Name
+              <input name="name" value="Vendor payment" />
+            </label>
+            <label>
+              Amount
+              <input name="amount" type="number" min="0" value="1000" />
+            </label>
+            <label>
+              Category
+              <select name="category">
+                <option>Vendor</option>
+                <option>Payroll</option>
+                <option>Bills</option>
+                <option>Marketing</option>
+                <option>Other</option>
+              </select>
+            </label>
+            <label>
+              Currency
+              <input name="currency" value="PROS" />
+            </label>
+          </div>
           <button type="submit">Log Expense Hash</button>
         </form>
 
         <form id="verifyForm" class="panel">
-          <h2>Verify Hash</h2>
+          <h2>Verify Record</h2>
           <label>
             Expense hash
             <input name="hash" placeholder="0x..." />
           </label>
-          <button type="submit">Verify Onchain</button>
+          <div class="button-row">
+            <button type="submit">Verify Onchain</button>
+            <button id="historyButton" type="button">Wallet History</button>
+          </div>
         </form>
       </section>
 
-      <section class="actions">
-        <button id="summaryButton" type="button">Refresh Summary</button>
-        <button id="historyButton" type="button">Wallet History</button>
-      </section>
-
-      <section class="output">
-        <div>
+      <section id="json" class="output-grid">
+        <div class="panel warnings-panel">
           <h2>Warnings</h2>
           <ul id="warnings"></ul>
         </div>
-        <div>
+        <div class="panel json-panel">
           <h2>JSON Output</h2>
           <pre id="output">{}</pre>
         </div>

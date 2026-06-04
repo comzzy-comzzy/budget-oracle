@@ -1,6 +1,10 @@
 const output = document.querySelector("#output");
 const warnings = document.querySelector("#warnings");
 const statusNode = document.querySelector("#status");
+const metricSpent = document.querySelector("#metricSpent");
+const metricRemaining = document.querySelector("#metricRemaining");
+const metricUsed = document.querySelector("#metricUsed");
+const metricWarnings = document.querySelector("#metricWarnings");
 let lastStatus = null;
 
 function formData(form) {
@@ -10,6 +14,15 @@ function formData(form) {
 function show(payload) {
   output.textContent = JSON.stringify(payload, null, 2);
   const warningItems = payload.warnings || payload.audit?.warnings || payload.guardian?.warnings || [];
+  const summary = payload.summary || payload.tracker?.summary;
+
+  if (summary) {
+    metricSpent.textContent = summary.totalSpent?.formatted || "-";
+    metricRemaining.textContent = summary.remaining?.formatted || "-";
+    metricUsed.textContent = summary.budgetUsed || "-";
+  }
+  metricWarnings.textContent = String(warningItems.length);
+
   warnings.replaceChildren(
     ...warningItems.map((warning) => {
       const item = document.createElement("li");
