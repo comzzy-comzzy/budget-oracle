@@ -10,7 +10,14 @@
     <main class="page-shell">
       <nav class="nav">
         <a class="brand" href="/" aria-label="BudgetOracle home">
-          <span class="brand-mark">bo</span>
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 48 48" focusable="false">
+              <path class="logo-eye" d="M7.5 24.5C12.2 16.4 18 12.6 24 12.6s11.8 3.8 16.5 11.9C35.8 32.6 30 36.4 24 36.4S12.2 32.6 7.5 24.5Z" />
+              <path class="logo-ledger" d="M15.4 31.4h4.2v-6.8h-4.2v6.8Zm6.5 0h4.2V19.2h-4.2v12.2Zm6.5 0h4.2v-9h-4.2v9Z" />
+              <circle class="logo-core" cx="24" cy="24.5" r="5.4" />
+              <path class="logo-spark" d="M36 8.5v6.2M32.9 11.6h6.2" />
+            </svg>
+          </span>
           <span>BudgetOracle</span>
         </a>
         <div class="nav-links" aria-label="Sections">
@@ -18,7 +25,10 @@
           <a href="#ledger">Ledger</a>
           <a href="#json">Output</a>
         </div>
-        <button id="summaryButton" class="nav-action" type="button">Refresh</button>
+        <div class="nav-actions">
+          <button id="connectWalletButton" class="wallet-action" type="button">Connect Wallet</button>
+          <button id="summaryButton" class="nav-action" type="button">Refresh</button>
+        </div>
       </nav>
 
       <section class="hero">

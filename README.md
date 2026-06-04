@@ -55,6 +55,8 @@ http://127.0.0.1:4173
 
 The demo is backed by the real BudgetOracle modules through `demo/site/server.js`. It can initialize a budget, add expenses with guardian warnings, show summary JSON, log an expense hash through the ledger, and verify a hash. Keep wallet variables in the server environment only; never put `PHAROS_PRIVATE_KEY` in browser code.
 
+Wallet connect is optional in the demo. The public site can connect Rabby or MetaMask to read the visitor address, switch to the configured Pharos network, and prefill wallet history. Live ledger writes are still signed by the server wallet from Vercel environment variables, so the user's wallet is not required to sign expense logs.
+
 ## Deploy Demo To Vercel
 
 The Vercel demo uses static files from `public/` and serverless functions in `api/`.
